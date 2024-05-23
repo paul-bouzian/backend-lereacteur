@@ -153,6 +153,16 @@ router.put("/:id", isAuthenticated, fileUpload(), async (req, res) => {
         }
       );
 
+      // Supprimer tout jusqu'à "vinted/"
+      let startIndex = offer.product_image.indexOf("vinted/");
+      let urlToDestroy = offer.product_image.substring(startIndex);
+
+      // Supprimer l'extension à la fin
+      urlToDestroy = urlToDestroy.substring(0, urlToDestroy.lastIndexOf("."));
+
+      // Détruire l'image
+      await cloudinary.uploader.destroy(urlToDestroy);
+
       //Enresgistrer la nouvelle URL
       offer.product_image = newImage.secure_url;
     }
