@@ -37,10 +37,28 @@ router.get("/offers", async (req, res) => {
       .skip((pageOption - 1) * articlesByPage)
       .limit(articlesByPage);
 
-    res.status(200).json(resultsTab);
+    res.status(200).json({
+      count: resultsTab.length,
+      offers: resultsTab,
+    });
   } catch (error) {
     console.log(error);
-    res.status(500).json(error);
+    res.status(500).json(error.message);
+  }
+});
+
+router.get("/offers/:id", async (req, res) => {
+  try {
+    const offer = await Offer.findById(req.params.id);
+
+    if (!offer) {
+      return res.status(404).json({ error: "No offer found" });
+    }
+
+    return res.status(200).json(offer);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error.message);
   }
 });
 
