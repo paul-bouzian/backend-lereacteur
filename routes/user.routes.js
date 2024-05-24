@@ -7,12 +7,6 @@ const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
 const convertToBase64 = require("../utils/convertToBase64");
 
-cloudinary.config({
-  cloud_name: "djj10svfl",
-  api_key: "931226441616792",
-  api_secret: "xrAXbGPASKZzcP00cpBrjX5G9Eg",
-});
-
 const ResClient = (res, status, message) => {
   res.status(status).json({ message: message });
 };
@@ -46,10 +40,8 @@ router.post("/signup", fileUpload(), async (req, res) => {
       salt,
     });
 
-    await newUser.save();
-
     if (req.files) {
-      //uplod to cloudinary
+      //upload to cloudinary
       const pictureUploaded = await cloudinary.uploader.upload(
         convertToBase64(req.files.picture),
         {
