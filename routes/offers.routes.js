@@ -35,7 +35,8 @@ router.get("/offers", async (req, res) => {
     const resultsTab = await Offer.find(searchOptions)
       .sort(sortOption)
       .skip((pageOption - 1) * articlesByPage)
-      .limit(articlesByPage);
+      .limit(articlesByPage)
+      .populate("owner");
 
     res.status(200).json({
       count: resultsTab.length,
