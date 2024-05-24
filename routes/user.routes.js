@@ -74,7 +74,7 @@ router.post("/login", async (req, res) => {
 
     const matchPassword = await bcrypt.compare(password, account.hash);
     if (!matchPassword) {
-      return ResClient(res, 400, "Wrong password");
+      return ResClient(res, 400, "Wrong email or password");
     }
 
     ResClient(res, 200, account);
