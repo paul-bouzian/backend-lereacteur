@@ -8,7 +8,6 @@ const isOwner = async (req, res, next) => {
   }
 
   console.log(req.user._id.toString());
-  console.log("coucou");
   console.log(offer.owner._id.toString());
   if (req.user._id.toString() !== offer.owner._id.toString()) {
     return res
