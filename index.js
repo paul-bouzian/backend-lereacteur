@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -11,14 +12,14 @@ const offersRoutes = require("./routes/offers.routes");
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
-  cloud_name: "djj10svfl",
-  api_key: "931226441616792",
-  api_secret: "xrAXbGPASKZzcP00cpBrjX5G9Eg",
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 //connexion à la BDD
 
-mongoose.connect("mongodb://localhost:27017/vinted");
+mongoose.connect(process.env.MONGODB_URI);
 
 //utilisation des différentes routes
 
@@ -33,6 +34,6 @@ app.all("*", (req, res) => {
   res.status(404).json({ error: "Page not found" });
 });
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
   console.log("server connected");
 });
