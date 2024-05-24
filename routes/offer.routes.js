@@ -3,6 +3,7 @@ const Offer = require("../models/Offer");
 const fileUpload = require("express-fileupload");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const convertToBase64 = require("../utils/convertToBase64");
+const isOwner = require("../middlewares/isOwner");
 
 const router = express.Router();
 
@@ -82,7 +83,7 @@ router.post("/publish", isAuthenticated, fileUpload(), async (req, res) => {
   }
 });
 
-router.put("/:id", isAuthenticated, fileUpload(), async (req, res) => {
+router.put("/:id", isAuthenticated, isOwner, fileUpload(), async (req, res) => {
   try {
     if (!req.params.id) {
       return res.status(400).send("No id given");
@@ -175,7 +176,7 @@ router.put("/:id", isAuthenticated, fileUpload(), async (req, res) => {
   }
 });
 
-router.delete("/:id", isAuthenticated, async (req, res) => {
+router.delete("/:id", isAuthenticated, isOwner, async (req, res) => {
   try {
     if (!req.params.id) {
       return res.status(400).send("No id given");
